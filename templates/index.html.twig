@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des dépenses{% endblock %}
+
+{% block body %}
+    <h1>Liste des dépenses</h1>
+
+    <a href="{{ path('app_expense_new') }}">➕ Ajouter une dépense</a>
+    <a href="{{ path('app_expense_stats') }}">📊 Statistiques</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Montant</th>
+                <th>Catégorie</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for expense in expenses %}
+            <tr>
+                <td>{{ expense.amount }} €</td>
+                <td>{{ expense.category }}</td>
+                <td>{{ expense.date|date('d/m/Y') }}</td>
+                <td>
+                    <a href="{{ path('app_expense_show', {'id': expense.id}) }}">Voir</a>
+                    <a href="{{ path('app_expense_edit', {'id': expense.id}) }}">Modifier</a>
+                    <form method="post" action="{{ path('app_expense_delete', {'id': expense.id}) }}" style="display:inline;" onsubmit="return confirm('Supprimer ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ expense.id) }}">
+                        <button>Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucune dépense trouvée.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

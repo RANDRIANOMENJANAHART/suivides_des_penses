@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistiques des dépenses{% endblock %}
+
+{% block body %}
+    <h1>Statistiques des dépenses</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Catégorie</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for row in stats %}
+            <tr>
+                <td>{{ row.category }}</td>
+                <td>{{ row.total }} €</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">Aucune dépense enregistrée.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_expense_index') }}">← Retour à la liste</a>
+{% endblock %}
