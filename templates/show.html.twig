@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de la dépense{% endblock %}
+
+{% block body %}
+    <h1>Détail de la dépense</h1>
+
+    <p><strong>Montant :</strong> {{ expense.amount }} €</p>
+    <p><strong>Catégorie :</strong> {{ expense.category }}</p>
+    <p><strong>Date :</strong> {{ expense.date|date('d/m/Y') }}</p>
+
+    <a href="{{ path('app_expense_edit', {'id': expense.id}) }}">✏️ Modifier</a>
+    <form method="post" action="{{ path('app_expense_delete', {'id': expense.id}) }}" onsubmit="return confirm('Supprimer ?');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ expense.id) }}">
+        <button>🗑️ Supprimer</button>
+    </form>
+
+    <a href="{{ path('app_expense_index') }}">← Retour à la liste</a>
+{% endblock %}
